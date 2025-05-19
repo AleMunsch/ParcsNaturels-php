@@ -20,6 +20,6 @@ class Controller {
 
     // Méthode utilitaire pour charger une vue Twig
     protected function render($template, $data = []) {
-        echo $this->twig->render($template . '.html.twig', $data);
+        echo $this->twig->render($template . '.twig', $data);
     }
 }
