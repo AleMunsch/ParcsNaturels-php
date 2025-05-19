@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+{# app/Views/parc/show.html.twig #}
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Détails du Parc Naturel</h1>
+
+    <div class="card mb-4">
+        <div class="row g-0">
+            {% if parc.photo %}
+            <div class="col-md-4">
+                <img src="/ParcsNaturels-php/public/uploads/{{ parc.photo }}" class="img-fluid rounded-start" alt="Photo du parc">
+            </div>
+            {% endif %}
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{ parc.nom }}</h5>
+                    <p class="card-text">{{ parc.description }}</p>
+                    <p class="card-text"><strong>Date de création :</strong> {{ parc.date_creation }}</p>
+                    <p class="card-text"><strong>Prix d'entrée :</strong> {{ parc.prix_entree }} €</p>
+                    <p class="card-text"><strong>Coordonnées :</strong> {{ parc.latitude }}, {{ parc.longitude }}</p>
+                    <p class="card-text"><strong>Contact :</strong> {{ parc.nom_contact }} - {{ parc.email_contact }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/ParcsNaturels-php/public/parc/index" class="btn btn-secondary">Retour</a>
+    <a href="/ParcsNaturels-php/public/parc/edit/{{ parc.id }}" class="btn btn-warning">Modifier</a>
+    <a href="/ParcsNaturels-php/public/parc/exportPdf/{{ parc.id }}" class="btn btn-outline-primary">Exporter en PDF</a>
+</div>
+{% endblock %}

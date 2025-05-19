@@ -1,0 +1,7 @@
+{
+  "require": {
+    "twig/twig": "^3.0",
+    "phpmailer/phpmailer": "^6.0",
+    "firebase/php-jwt": "^6.0"
+  }
+}

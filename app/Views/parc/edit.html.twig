@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+{# app/Views/parc/edit.html.twig #}
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">Modifier le Parc Naturel</h1>
+
+    <form method="post" action="/ParcsNaturels-php/public/parc/update/{{ parc.id }}" enctype="multipart/form-data">
+        <div class="mb-3">
+            <label class="form-label">Nom</label>
+            <input type="text" name="nom" class="form-control" value="{{ parc.nom }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" required>{{ parc.description }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Date de création</label>
+            <input type="date" name="date_creation" class="form-control" value="{{ parc.date_creation }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Prix d'entrée (€)</label>
+            <input type="number" name="prix_entree" class="form-control" value="{{ parc.prix_entree }}" required>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label class="form-label">Latitude</label>
+                <input type="text" name="latitude" id="latitude" class="form-control" value="{{ parc.latitude }}" required>
+            </div>
+            <div class="col">
+                <label class="form-label">Longitude</label>
+                <input type="text" name="longitude" id="longitude" class="form-control" value="{{ parc.longitude }}" required>
+            </div>
+        </div>
+
+        <div id="map" style="height: 300px; margin-bottom: 20px;"></div>
+
+        <div class="mb-3">
+            <label class="form-label">Nom du contact</label>
+            <input type="text" name="nom_contact" class="form-control" value="{{ parc.nom_contact }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Email du contact</label>
+            <input type="email" name="email_contact" class="form-control" value="{{ parc.email_contact }}" required>
+        </div>
+
+        {% if parc.photo %}
+        <div class="mb-3">
+            <label class="form-label">Photo actuelle :</label><br>
+            <img src="/ParcsNaturels-php/public/uploads/{{ parc.photo }}" width="150">
+        </div>
+        {% endif %}
+
+        <div class="mb-3">
+            <label class="form-label">Changer la photo</label>
+            <input type="file" name="photo" class="form-control" accept="image/*">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+        <a href="/ParcsNaturels-php/public/parc/index" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+
+<script>
+    const map = L.map('map').setView([{{ parc.latitude }}, {{ parc.longitude }}], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap'
+    }).addTo(map);
+
+    let marker = L.marker([{{ parc.latitude }}, {{ parc.longitude }}]).addTo(map);
+    map.on('click', function(e) {
+        const lat = e.latlng.lat;
+        const lng = e.latlng.lng;
+        document.getElementById('latitude').value = lat;
+        document.getElementById('longitude').value = lng;
+        marker.setLatLng(e.latlng);
+    });
+</script>
+{% endblock %}
