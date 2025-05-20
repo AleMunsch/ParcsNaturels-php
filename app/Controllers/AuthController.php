@@ -38,6 +38,7 @@ class AuthController extends Controller {
     }
 
     public function logout() {
+        echo "Déconnexion réussie";
         unset($_SESSION['admin_logged']);
         session_destroy();
         header('Location: /ParcsNaturels-php/public/?url=auth/login');

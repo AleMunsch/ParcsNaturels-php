@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f8e93b63a27d143618610b89906e1f9",
+    "content-hash": "c7cc0d8fe37265f4491a78e56a98e0e5",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -149,6 +149,63 @@
                 }
             ],
             "time": "2025-04-24T15:19:31+00:00"
+        },
+        {
+            "name": "spipu/html2pdf",
+            "version": "v5.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spipu/html2pdf.git",
+                "reference": "b0f477711de3052041072897510e690975aa37ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spipu/html2pdf/zipball/b0f477711de3052041072897510e690975aa37ce",
+                "reference": "b0f477711de3052041072897510e690975aa37ce",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gd": "*",
+                "ext-mbstring": "*",
+                "php": "^5.6 || ^7.0 || ^8.0",
+                "tecnickcom/tcpdf": "^6.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.0 || ^9.0"
+            },
+            "suggest": {
+                "ext-gd": "Allows to embed images into the PDF",
+                "fagundes/zff-html2pdf": "if you need to integrate Html2Pdf with Zend Framework 2 (zf2)"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spipu\\Html2Pdf\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "OSL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Spipu",
+                    "homepage": "https://github.com/spipu",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Html2Pdf is a HTML to PDF converter written in PHP5 (it uses TCPDF). OFFICIAL PACKAGE",
+            "homepage": "http://html2pdf.fr/",
+            "keywords": [
+                "html",
+                "html2pdf",
+                "pdf"
+            ],
+            "support": {
+                "issues": "https://github.com/spipu/html2pdf/issues",
+                "source": "https://github.com/spipu/html2pdf/tree/v5.2.7"
+            },
+            "time": "2023-02-02T15:50:45+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
@@ -452,6 +509,77 @@
                 }
             ],
             "time": "2024-09-09T11:45:10+00:00"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "6.9.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tecnickcom/TCPDF.git",
+                "reference": "c838d7f7babb0d35763acfb9ecf78c3f45966f83"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tecnickcom/TCPDF/zipball/c838d7f7babb0d35763acfb9ecf78c3f45966f83",
+                "reference": "c838d7f7babb0d35763acfb9ecf78c3f45966f83",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "role": "lead"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDFD32000-2008",
+                "TCPDF",
+                "barcodes",
+                "datamatrix",
+                "pdf",
+                "pdf417",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/tecnickcom/TCPDF/issues",
+                "source": "https://github.com/tecnickcom/TCPDF/tree/6.9.4"
+            },
+            "funding": [
+                {
+                    "url": "https://www.paypal.com/donate/?hosted_button_id=NZUEC5XS8MFBJ",
+                    "type": "custom"
+                }
+            ],
+            "time": "2025-05-13T11:34:35+00:00"
         },
         {
             "name": "twig/twig",

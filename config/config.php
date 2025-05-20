@@ -17,7 +17,7 @@ return [
         'host' => 'smtp.example.com',
         'username' => 'user@example.com',
         'password' => 'motdepasse',
-        'port' => 587,
+        'port' => 1025,
         'encryption' => 'tls'
     ]
 ];

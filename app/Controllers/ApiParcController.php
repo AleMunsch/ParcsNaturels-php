@@ -1,5 +1,4 @@
 <?php
-// app/Controllers/ApiParcController.php
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 require_once __DIR__ . '/../Models/Parc.php';
@@ -14,7 +13,6 @@ class ApiParcController {
     public function __construct() {
         $this->config = require __DIR__ . '/../../config/config.php';
         $this->model = new Parc($GLOBALS['pdo']);
-        header('Content-Type: application/json');
     }
 
     public function login() {
@@ -40,27 +38,9 @@ class ApiParcController {
         }
     }
 
-    private function getBearerToken() {
-        $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
-        if (preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
-            return $matches[1];
-        }
-        return null;
-    }
-
-    private function authenticate() {
-        $token = $this->getBearerToken();
-        if (!$token) {
-            $this->renderJson(['error' => 'Token manquant'], 401);
-        }
-        try {
-            $decoded = JWT::decode($token, new Key($this->config['jwt_secret'], 'HS256'));
-        } catch (Exception $e) {
-            $this->renderJson(['error' => 'Token invalide'], 401);
-        }
-    }
-
     public function index() {
+        $this->authenticate();
+
         $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
         $limit = 10;
         $offset = ($page - 1) * $limit;
@@ -71,10 +51,17 @@ class ApiParcController {
         $stmt->execute();
         $parcs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->renderJson($parcs);
+        $this->renderJson([
+            'page' => $page,
+            'limit' => $limit,
+            'count' => count($parcs),
+            'data' => $parcs
+        ]);
     }
 
     public function show($id) {
+        $this->authenticate();
+
         $parc = $this->model->getById($id);
         if ($parc) {
             $this->renderJson($parc);
@@ -88,7 +75,7 @@ class ApiParcController {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if ($this->model->create($data)) {
-            $this->renderJson(['success' => true]);
+            $this->renderJson(['success' => true], 201);
         } else {
             $this->renderJson(['error' => 'Erreur lors de la création'], 400);
         }
@@ -107,6 +94,7 @@ class ApiParcController {
 
     public function delete($id) {
         $this->authenticate();
+
         if ($this->model->delete($id)) {
             $this->renderJson(['success' => true]);
         } else {
@@ -114,25 +102,44 @@ class ApiParcController {
         }
     }
 
-protected function renderJson($data, int $statusCode = 200): void {
-    $headers = getallheaders();
-    $wantsJson = true;
-
-    if (isset($headers['X-Return-JSON']) && strtolower($headers['X-Return-JSON']) === 'false') {
-        $wantsJson = false;
+    private function getBearerToken() {
+        $auth = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (preg_match('/Bearer\s(\S+)/', $auth, $matches)) {
+            return $matches[1];
+        }
+        return null;
     }
 
-    http_response_code($statusCode);
-
-    if ($wantsJson) {
-        header('Content-Type: application/json');
-        echo json_encode($data);
-    } else {
-        header('Content-Type: text/plain');
-        echo is_array($data) ? print_r($data, true) : (string) $data;
+    private function authenticate() {
+        $token = $this->getBearerToken();
+        if (!$token) {
+            $this->renderJson(['error' => 'Token manquant'], 401);
+        }
+        try {
+            JWT::decode($token, new Key($this->config['jwt_secret'], 'HS256'));
+        } catch (Exception $e) {
+            $this->renderJson(['error' => 'Token invalide : ' . $e->getMessage()], 401);
+        }
     }
 
-    exit;
-}
+    protected function renderJson($data, int $statusCode = 200): void {
+        $headers = getallheaders();
+        $wantsJson = true;
 
+        if (isset($headers['X-Return-JSON']) && strtolower($headers['X-Return-JSON']) === 'false') {
+            $wantsJson = false;
+        }
+
+        http_response_code($statusCode);
+
+        if ($wantsJson) {
+            header('Content-Type: application/json');
+            echo json_encode($data);
+        } else {
+            header('Content-Type: text/plain');
+            echo is_array($data) ? print_r($data, true) : (string) $data;
+        }
+
+        exit;
+    }
 }
