@@ -31,13 +31,12 @@ class ApiParcController {
                 'iss' => 'parcs-api',
                 'sub' => $admin['id'],
                 'iat' => time(),
-                'exp' => time() + 3600 // 1h
+                'exp' => time() + 3600
             ];
             $jwt = JWT::encode($payload, $this->config['jwt_secret'], 'HS256');
-            echo json_encode(['token' => $jwt]);
+            $this->renderJson(['token' => $jwt]);
         } else {
-            http_response_code(401);
-            echo json_encode(['error' => 'Identifiants invalides']);
+            $this->renderJson(['error' => 'Identifiants invalides'], 401);
         }
     }
 
@@ -52,16 +51,12 @@ class ApiParcController {
     private function authenticate() {
         $token = $this->getBearerToken();
         if (!$token) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Token manquant']);
-            exit;
+            $this->renderJson(['error' => 'Token manquant'], 401);
         }
         try {
             $decoded = JWT::decode($token, new Key($this->config['jwt_secret'], 'HS256'));
         } catch (Exception $e) {
-            http_response_code(401);
-            echo json_encode(['error' => 'Token invalide']);
-            exit;
+            $this->renderJson(['error' => 'Token invalide'], 401);
         }
     }
 
@@ -76,16 +71,15 @@ class ApiParcController {
         $stmt->execute();
         $parcs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        echo json_encode($parcs);
+        $this->renderJson($parcs);
     }
 
     public function show($id) {
         $parc = $this->model->getById($id);
         if ($parc) {
-            echo json_encode($parc);
+            $this->renderJson($parc);
         } else {
-            http_response_code(404);
-            echo json_encode(['error' => 'Parc non trouvé']);
+            $this->renderJson(['error' => 'Parc non trouvé'], 404);
         }
     }
 
@@ -94,10 +88,9 @@ class ApiParcController {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if ($this->model->create($data)) {
-            echo json_encode(['success' => true]);
+            $this->renderJson(['success' => true]);
         } else {
-            http_response_code(400);
-            echo json_encode(['error' => 'Erreur lors de la création']);
+            $this->renderJson(['error' => 'Erreur lors de la création'], 400);
         }
     }
 
@@ -106,20 +99,40 @@ class ApiParcController {
         $data = json_decode(file_get_contents('php://input'), true);
 
         if ($this->model->update($id, $data)) {
-            echo json_encode(['success' => true]);
+            $this->renderJson(['success' => true]);
         } else {
-            http_response_code(400);
-            echo json_encode(['error' => 'Erreur lors de la mise à jour']);
+            $this->renderJson(['error' => 'Erreur lors de la mise à jour'], 400);
         }
     }
 
     public function delete($id) {
         $this->authenticate();
         if ($this->model->delete($id)) {
-            echo json_encode(['success' => true]);
+            $this->renderJson(['success' => true]);
         } else {
-            http_response_code(400);
-            echo json_encode(['error' => 'Erreur lors de la suppression']);
+            $this->renderJson(['error' => 'Erreur lors de la suppression'], 400);
         }
     }
+
+protected function renderJson($data, int $statusCode = 200): void {
+    $headers = getallheaders();
+    $wantsJson = true;
+
+    if (isset($headers['X-Return-JSON']) && strtolower($headers['X-Return-JSON']) === 'false') {
+        $wantsJson = false;
+    }
+
+    http_response_code($statusCode);
+
+    if ($wantsJson) {
+        header('Content-Type: application/json');
+        echo json_encode($data);
+    } else {
+        header('Content-Type: text/plain');
+        echo is_array($data) ? print_r($data, true) : (string) $data;
+    }
+
+    exit;
+}
+
 }

@@ -1,6 +1,9 @@
 <?php
 // public/index.php
-
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../core/Router.php';
 
@@ -23,6 +26,5 @@ try {
 } catch (PDOException $e) {
     die("Erreur de connexion à la base de données : " . $e->getMessage());
 }
-
 // Lancer le routeur
 new Router();

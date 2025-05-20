@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h1 class="mb-4">Modifier le Parc Naturel</h1>
 
-    <form method="post" action="/ParcsNaturels-php/public/parc/update/{{ parc.id }}" enctype="multipart/form-data">
+    <form method="post" action="/ParcsNaturels-php/public/?url=parc/update/{{ parc.id }}" enctype="multipart/form-data">
         <div class="mb-3">
             <label class="form-label">Nom</label>
             <input type="text" name="nom" class="form-control" value="{{ parc.nom }}" required>
@@ -52,7 +52,7 @@
         {% if parc.photo %}
         <div class="mb-3">
             <label class="form-label">Photo actuelle :</label><br>
-            <img src="/ParcsNaturels-php/public/uploads/{{ parc.photo }}" width="150">
+            <img src="/uploads/{{ parc.photo }}" width="150">
         </div>
         {% endif %}
 
@@ -62,7 +62,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary">Mettre à jour</button>
-        <a href="/ParcsNaturels-php/public/parc/index" class="btn btn-secondary">Annuler</a>
+        <a href="/ParcsNaturels-php/public/?url=parc/index" class="btn btn-secondary">Annuler</a>
     </form>
 </div>
 

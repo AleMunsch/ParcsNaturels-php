@@ -5,7 +5,7 @@
 <div class="container mt-5">
     <h1 class="mb-4">Liste des Parcs Naturels</h1>
 
-    <a href="/ParcsNaturels-php/public/parc/create" class="btn btn-primary mb-3">Ajouter un parc</a>
+    <a href="/ParcsNaturels-php/public/?url=parc/create" class="btn btn-primary mb-3">Ajouter un parc</a>
 
     <table class="table table-bordered table-hover">
         <thead class="table-dark">
@@ -23,9 +23,9 @@
                 <td>{{ parc.date_creation }}</td>
                 <td>{{ parc.prix_entree }}</td>
                 <td>
-                    <a href="/ParcsNaturels-php/public/parc/show/{{ parc.id }}" class="btn btn-info btn-sm">Voir</a>
-                    <a href="/ParcsNaturels-php/public/parc/edit/{{ parc.id }}" class="btn btn-warning btn-sm">Modifier</a>
-                    <a href="/ParcsNaturels-php/public/parc/delete/{{ parc.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
+                    <a href="/ParcsNaturels-php/public/?url=parc/show/{{ parc.id }}" class="btn btn-info btn-sm">Voir</a>
+                    <a href="/ParcsNaturels-php/public/?url=parc/edit/{{ parc.id }}" class="btn btn-warning btn-sm">Modifier</a>
+                    <a href="/ParcsNaturels-php/public/?url=parc/delete/{{ parc.id }}" class="btn btn-danger btn-sm" onclick="return confirm('Confirmer la suppression ?');">Supprimer</a>
                 </td>
             </tr>
             {% else %}

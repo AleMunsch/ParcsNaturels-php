@@ -3,7 +3,7 @@
 class Router {
     private $url;
 
-    public function construct() {
+    public function __construct() {
         $this->url = isset($_GET['url']) ? trim($_GET['url'], '/') : '';
         $this->route();
     }
@@ -18,7 +18,7 @@ class Router {
             $method = $segments[1] ?? 'index';
         }
 
-        $controllerFile = DIR__ . '/../app/Controllers/' . $controllerName . '.php';
+        $controllerFile = __DIR__ . '/../app/Controllers/' . $controllerName . '.php';
 
         if (file_exists($controllerFile)) {
             require_once $controllerFile;

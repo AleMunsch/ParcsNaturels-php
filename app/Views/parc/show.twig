@@ -9,7 +9,7 @@
         <div class="row g-0">
             {% if parc.photo %}
             <div class="col-md-4">
-                <img src="/ParcsNaturels-php/public/uploads/{{ parc.photo }}" class="img-fluid rounded-start" alt="Photo du parc">
+                <img src="/uploads/{{ parc.photo }}" class="img-fluid rounded-start" alt="{{ parc.nom }}">
             </div>
             {% endif %}
             <div class="col-md-8">
@@ -25,8 +25,8 @@
         </div>
     </div>
 
-    <a href="/ParcsNaturels-php/public/parc/index" class="btn btn-secondary">Retour</a>
-    <a href="/ParcsNaturels-php/public/parc/edit/{{ parc.id }}" class="btn btn-warning">Modifier</a>
-    <a href="/ParcsNaturels-php/public/parc/exportPdf/{{ parc.id }}" class="btn btn-outline-primary">Exporter en PDF</a>
+    <a href="/ParcsNaturels-php/public/?url=parc/index" class="btn btn-secondary">Retour</a>
+    <a href="/ParcsNaturels-php/public/?url=parc/edit/{{ parc.id }}" class="btn btn-warning">Modifier</a>
+    <a href="/ParcsNaturels-php/public/?url=parc/exportPdf/{{ parc.id }}" class="btn btn-outline-primary">Exporter en PDF</a>
 </div>
 {% endblock %}

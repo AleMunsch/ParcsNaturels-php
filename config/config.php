@@ -11,7 +11,8 @@ return [
     ],
     'jwt_secret' => 'e1bfccc2b16177e36f2f95447e85ff0aa043f37bc4d873c036c8ddff5614f1c7',
     'base_url' => 'http://localhost/ParcsNaturels-php/public/',
-    'admin_email' => 'admin@parcs-naturels.fr',
+    'admin' => 'admin@parcs-naturels.fr',
+    // 'admin_password' => 'admin123',
     'smtp' => [
         'host' => 'smtp.example.com',
         'username' => 'user@example.com',

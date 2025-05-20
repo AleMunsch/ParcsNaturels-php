@@ -16,7 +16,7 @@ class ParcController extends Controller {
         parent::__construct();
 
         if (empty($_SESSION['admin_logged'])) {
-            header('Location: /ParcsNaturels-php/public/auth/login');
+            header('Location: /ParcsNaturels-php/public/?url=auth/login');
             exit;
         }
 
@@ -25,13 +25,13 @@ class ParcController extends Controller {
 
     public function index() {
         $parcs = $this->model->getAll();
-        $this->render('parc/index', ['parcs' => $parcs]);
+        $this->renderJsonOrView('parc/index', ['parcs' => $parcs]);
     }
 
     public function show($id) {
         $parc = $this->model->getById($id);
         if ($parc) {
-            $this->render('parc/show', ['parc' => $parc]);
+            $this->renderJsonOrView('parc/show', ['parc' => $parc]);
         } else {
             http_response_code(404);
             echo "Parc non trouvé.";
@@ -39,7 +39,7 @@ class ParcController extends Controller {
     }
 
     public function create() {
-        $this->render('parc/create');
+        $this->renderJsonOrView('parc/create');
     }
 
     public function store() {
@@ -53,7 +53,7 @@ class ParcController extends Controller {
 
         if ($this->model->create($data)) {
             $this->sendConfirmationEmail($data);
-            header('Location: /ParcsNaturels-php/public/parc/index');
+            header('Location: /ParcsNaturels-php/public/?url=parc/index');
             exit;
         } else {
             echo "Erreur lors de l'ajout du parc.";
@@ -116,7 +116,7 @@ class ParcController extends Controller {
 
     public function edit($id) {
         $parc = $this->model->getById($id);
-        $this->render('parc/edit', ['parc' => $parc]);
+        $this->renderJsonOrView('parc/edit', ['parc' => $parc]);
     }
 
     public function update($id) {
@@ -131,7 +131,7 @@ class ParcController extends Controller {
         }
 
         if ($this->model->update($id, $data)) {
-            header('Location: /ParcsNaturels-php/public/parc/index');
+            header('Location: /ParcsNaturels-php/public/?url=parc/index');
             exit;
         } else {
             echo "Erreur lors de la mise à jour du parc.";
