@@ -61,33 +61,39 @@ class ParcController extends Controller {
     }
 
     private function sendConfirmationEmail($data) {
-        $config = require __DIR__ . '/../../config/config.php';
-        $mail = new PHPMailer(true);
+    $config = require __DIR__ . '/../../config/config.php';
+    $mail = new PHPMailer(true);
+
         try {
             $mail->isSMTP();
             $mail->Host = $config['smtp']['host'];
-            $mail->SMTPAuth = true;
-            $mail->Username = $config['smtp']['username'];
-            $mail->Password = $config['smtp']['password'];
-            $mail->SMTPSecure = $config['smtp']['encryption'];
             $mail->Port = $config['smtp']['port'];
+            $mail->SMTPAuth = false; // Aucune auth pour MailHog
 
-            $mail->setFrom($config['smtp']['username'], 'Parcs Naturels');
+            // Vérifie si l'encryption est définie
+            if (!empty($config['smtp']['encryption'])) {
+                $mail->SMTPSecure = $config['smtp']['encryption'];
+            }
+
+            $mail->setFrom('no-reply@parcs-naturels.local', 'Parcs Naturels');
             $mail->addAddress($data['email_contact'], $data['nom_contact']);
+
             $mail->isHTML(true);
             $mail->Subject = "Confirmation d'enregistrement du parc naturel";
             $mail->Body = '<h2>Votre parc a bien été enregistré</h2>' .
-                          '<p><strong>Nom :</strong> ' . $data['nom'] . '</p>' .
-                          '<p><strong>Description :</strong> ' . $data['description'] . '</p>' .
-                          '<p><strong>Date :</strong> ' . $data['date_creation'] . '</p>' .
-                          '<p><strong>Prix :</strong> ' . $data['prix_entree'] . ' €</p>' .
-                          '<p><strong>Coordonnées :</strong> ' . $data['latitude'] . ', ' . $data['longitude'] . '</p>' .
-                          '<p><a href="' . $config['base_url'] . 'parc/show/' . $GLOBALS['pdo']->lastInsertId() . '">Voir les détails du parc</a></p>';
+                        '<p><strong>Nom :</strong> ' . htmlspecialchars($data['nom']) . '</p>' .
+                        '<p><strong>Description :</strong> ' . htmlspecialchars($data['description']) . '</p>' .
+                        '<p><strong>Date :</strong> ' . htmlspecialchars($data['date_creation']) . '</p>' .
+                        '<p><strong>Prix :</strong> ' . htmlspecialchars($data['prix_entree']) . ' €</p>' .
+                        '<p><strong>Coordonnées :</strong> ' . htmlspecialchars($data['latitude']) . ', ' . htmlspecialchars($data['longitude']) . '</p>' .
+                        '<p><a href="' . $config['base_url'] . 'parc/show/' . $GLOBALS['pdo']->lastInsertId() . '">Voir les détails du parc</a></p>';
+
             $mail->send();
         } catch (Exception $e) {
-            error_log('Erreur lors de l\'envoi du mail : ' . $mail->ErrorInfo);
+            echo 'Erreur lors de l\'envoi du mail : ' . $mail->ErrorInfo;
         }
     }
+
 
     public function exportPdf($id) {
         $parc = $this->model->getById($id);

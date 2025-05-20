@@ -14,10 +14,10 @@ return [
     'admin' => 'admin@parcs-naturels.fr',
     // 'admin_password' => 'admin123',
     'smtp' => [
-        'host' => 'smtp.example.com',
-        'username' => 'user@example.com',
-        'password' => 'motdepasse',
+        'host' => 'localhost',
+        'username' => '',
+        'password' => '',
         'port' => 1025,
-        'encryption' => 'tls'
+        'encryption' => ''
     ]
 ];
