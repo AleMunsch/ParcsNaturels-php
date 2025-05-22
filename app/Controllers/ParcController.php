@@ -149,4 +149,52 @@ class ParcController extends Controller {
         header('Location: /ParcsNaturels-php/public/parc/index');
         exit;
     }
+    
+    public function showFixturesView() {
+    $this->render('parc/fixtures');
+    }
+
+    public function fixtures() {
+        $parcs = [
+            [
+                'nom' => 'Yosemite',
+                'description' => 'Parc national célèbre pour ses falaises de granit, ses cascades et ses séquoias géants.',
+                'date_creation' => '1890-10-01',
+                'prix_entree' => 35,
+                'latitude' => 37.8651,
+                'longitude' => -119.5383,
+                'nom_contact' => 'John Muir',
+                'email_contact' => 'john.muir@yosemite.com',
+                'photo' => 'yosemite.jpg'
+            ],
+            [
+                'nom' => 'Yellowstone',
+                'description' => 'Premier parc national au monde, connu pour ses geysers et sa faune abondante.',
+                'date_creation' => '1872-03-01',
+                'prix_entree' => 30,
+                'latitude' => 44.4280,
+                'longitude' => -110.5885,
+                'nom_contact' => 'Nathaniel Langford',
+                'email_contact' => 'nathaniel.langford@yellowstone.com',
+                'photo' => 'yellostone.jpg'
+            ],
+            [
+                'nom' => 'Kruger',
+                'description' => 'Parc national sud-africain réputé pour ses safaris et sa biodiversité exceptionnelle.',
+                'date_creation' => '1926-05-31',
+                'prix_entree' => 25,
+                'latitude' => -23.9884,
+                'longitude' => 31.5547,
+                'nom_contact' => 'James Stevenson-Hamilton',
+                'email_contact' => 'james.stevenson@kruger.com',
+                'photo' => 'kruger.jpg'
+            ]
+        ];
+
+        foreach ($parcs as $parc) {
+            $this->model->create($parc);
+        }
+
+        echo "Fixtures créées avec succès.";
+    }
 }

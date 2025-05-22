@@ -1,0 +1,21 @@
+{# filepath: app/Views/parc/fixtures.twig #}
+{% extends 'templates/base.twig' %}
+
+{% block content %}
+<h2>Créer les parcs de démonstration</h2>
+<button id="btn-fixtures">Créer les fixtures Yosemite, Yellowstone et Kruger</button>
+<div id="fixtures-result" style="margin-top:1em;color:green;"></div>
+
+<script>
+document.getElementById('btn-fixtures').onclick = function() {
+    fetch('/ParcsNaturels-php/public/?url=parc/fixtures')
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('fixtures-result').innerText = data;
+        })
+        .catch(() => {
+            document.getElementById('fixtures-result').innerText = "Erreur lors de la création des fixtures.";
+        });
+};
+</script>
+{% endblock %}
